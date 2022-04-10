@@ -3,22 +3,23 @@ package com.company;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Scanner;
+import java.net.SocketException;
+import java.sql.SQLOutput;
 
 public class Main {
     public static void main(String[] args) {
-	// write your code here
+	Connection();
     }
     public static void Connection () {
         try(ServerSocket serverSocket = new ServerSocket(2000)) {
-            Socket connSocket = serverSocket.accept();
-
-            InputStream inputStream = connSocket.getInputStream();
-            OutputStream outputStream = connSocket.getOutputStream();
-
-            PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(outputStream, "UTF-8"),true);
-
-            printWriter.println("Połączono");
+            while(true) {
+                try {
+                    Socket socket = serverSocket.accept();
+                    System.out.println("Połączono na ip: "+socket.getLocalAddress() +" Port: "+ socket.getPort());
+                } catch (SocketException e){
+                    System.out.println("Brak połączenia");
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
