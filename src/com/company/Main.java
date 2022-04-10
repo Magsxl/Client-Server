@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.Date;
 
 class threads extends Thread {
     BufferedReader streamIn;
@@ -21,7 +22,7 @@ class threads extends Thread {
             streamOut = new PrintStream(socket.getOutputStream());
             while ((echo = streamIn.readLine()) != null) {
                 System.out.println(echo);
-                streamOut.println(echo);
+                streamOut.println((new Date()).toString());
             }
         } catch (Exception e) {
             e.printStackTrace();
