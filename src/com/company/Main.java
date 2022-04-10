@@ -30,18 +30,18 @@ class threads extends Thread {
 }
 
 public class Main {
-   // threads thread;
+    private static threads thread;
     public static void main(String[] args) {
 	Connection();
     }
-    public static void Connection () {
+    public static void Connection() {
         try(ServerSocket serverSocket = new ServerSocket(2000)) {
             while(true) {
                 try {
                     Socket socket = serverSocket.accept();
                     System.out.println("Połączono na ip: "+socket.getLocalAddress() +" Port: "+ socket.getPort());
-                   // thread = new threads(socket);
-                   // thread.start();
+                    thread = new threads(socket);
+                    thread.start();
                 } catch (SocketException e){
                     System.out.println("Brak połączenia");
                 }
