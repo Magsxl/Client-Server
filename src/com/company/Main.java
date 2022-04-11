@@ -9,7 +9,7 @@ import java.util.Date;
 class threads extends Thread {
     BufferedReader streamIn;
     PrintWriter streamOut;
-    String echo;
+    String echo, receive, time, ip;
     Socket socket;
 
     public threads(Socket socket) {
@@ -24,6 +24,10 @@ class threads extends Thread {
                 Date date = new Date();
                 System.out.println("Otrzymana wiadomość: " + echo);
                 System.out.println("Data otrzymania wiadomości: " + date);
+                ip = "Polaczono na ip: "+socket.getLocalAddress() +"  Port: "+ socket.getPort();
+                receive = "Otrzymana wiadomosc: " + echo;
+                time = "Data otrzymania wiadomosci: " + date;
+                echo = "\n" + ip + "\n" + receive + "\n" + time + "\n";
                 streamOut.println(echo);
             }
         } catch (Exception e) {
@@ -41,7 +45,7 @@ public class Main {
             while(true) {
                 try {
                     Socket socket = serverSocket.accept();
-                    System.out.println("Połączono na ip: "+socket.getLocalAddress() +" Port: "+ socket.getPort());
+                    System.out.println("Połączono na ip: "+socket.getLocalAddress() +"  Port: "+ socket.getPort());
                     threads thread = new threads(socket);
                     thread.start();
                 } catch (SocketException e){
