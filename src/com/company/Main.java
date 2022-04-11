@@ -21,7 +21,9 @@ class threads extends Thread {
             streamIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             streamOut = new PrintStream(socket.getOutputStream());
             while ((echo = streamIn.readLine()) != null) {
+                Date date = new Date();
                 System.out.println(echo);
+                System.out.println("Data uzyskania wiadomosci: " + date);
                 streamOut.println(new Date());
             }
         } catch (Exception e) {
@@ -31,7 +33,6 @@ class threads extends Thread {
 }
 
 public class Main {
-    private static threads thread;
     public static void main(String[] args) {
 	Connection();
     }
@@ -41,7 +42,7 @@ public class Main {
                 try {
                     Socket socket = serverSocket.accept();
                     System.out.println("Połączono na ip: "+socket.getLocalAddress() +" Port: "+ socket.getPort());
-                    thread = new threads(socket);
+                    threads thread = new threads(socket);
                     thread.start();
                 } catch (SocketException e){
                     System.out.println("Brak połączenia");
