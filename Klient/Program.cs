@@ -13,29 +13,27 @@ namespace Klient
             {
                 while (true)
                 {
+                    String msg = Console.ReadLine();
+                    byte[] byData = Encoding.UTF8.GetBytes(msg);
+                    byte[] data = new byte[1024];
                     Socket soc = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                     IPAddress ipAdd = IPAddress.Parse("127.0.0.1");
                     IPEndPoint remoteEP = new IPEndPoint(ipAdd, 2000);
                     soc.Connect(remoteEP);
-                    String msg = Console.ReadLine();
-                    byte[] byData = Encoding.ASCII.GetBytes(msg);
-                    soc.Send(byData);
-                    
-                    /* byte[] buffer = new byte[1024];
-                    int iRx = soc.Receive(buffer);
-                    char[] chars = new char[iRx];
-
-                    Decoder d = Encoding.UTF8.GetDecoder();
-                    int charLen = d.GetChars(buffer, 0, iRx, chars, 0);
-                    String recv = new String(chars); */
-
-                    soc.Disconnect(false);
-                    soc.Close();
-
+                    int byteCount = soc.Send(byData); 
+                    Console.WriteLine("Sent {0} bytes", byteCount);
+                    soc.Shutdown(SocketShutdown.Send);
+                    int bytesRec = soc.Receive(data);
+                    if (bytesRec > 0)
+                    {
+                        Console.WriteLine(Encoding.ASCII.GetString(data, 0, bytesRec));
+                    }
+                    soc.Shutdown(SocketShutdown.Receive);
+                    soc.Close();                 
                 }
-            } catch
+            } catch (Exception ex)
             {
-                Console.WriteLine("Wyjątek!");
+                Console.WriteLine("Wyjątek!: " + ex);
             }
         }
     }
