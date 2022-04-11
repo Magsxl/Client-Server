@@ -18,11 +18,6 @@ namespace Klient
                     IPEndPoint remoteEP = new IPEndPoint(ipAdd, 2000);
                     soc.Connect(remoteEP);
                     String msg = Console.ReadLine();
-                    if (msg == null)
-                    {
-                        Console.WriteLine("Musisz coś wpisać");
-                        break;
-                    }
                     byte[] byData = Encoding.ASCII.GetBytes(msg);
                     soc.Send(byData);
                     
