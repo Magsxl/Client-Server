@@ -22,9 +22,9 @@ class threads extends Thread {
             streamOut = new PrintStream(socket.getOutputStream());
             while ((echo = streamIn.readLine()) != null) {
                 Date date = new Date();
-                System.out.println(echo);
-                System.out.println("Data uzyskania wiadomosci: " + date);
-                streamOut.println(new Date());
+                System.out.println("Otrzymana wiadomość: " + echo);
+                System.out.println("Data otrzymania wiadomości: " + date);
+                streamOut.println(echo);
             }
         } catch (Exception e) {
             e.printStackTrace();
