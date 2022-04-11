@@ -22,7 +22,7 @@ class threads extends Thread {
             streamOut = new PrintStream(socket.getOutputStream());
             while ((echo = streamIn.readLine()) != null) {
                 System.out.println(echo);
-                streamOut.println((new Date()).toString());
+                streamOut.println(new Date());
             }
         } catch (Exception e) {
             e.printStackTrace();

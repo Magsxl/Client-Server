@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Net.Sockets;
+using System.Net;
 
 namespace Klient
 {
@@ -8,17 +9,27 @@ namespace Klient
     {
         public static void Main(string[] args)
         {
+            /*String test = Console.ReadLine();
             string host = "localhost";
             int port = 2000;
-            byte[] buffer;
+            byte[] buffer = System.Text.Encoding.ASCII.GetBytes(test); */
+            
+
             try
             {
-                TcpClient client = new TcpClient(host,port);
-                NetworkStream network = client.GetStream();
-                buffer = new byte[client.ReceiveBufferSize];
-                int length = network.Read(buffer, 0, client.ReceiveBufferSize);
-                String time = Encoding.ASCII.GetString(buffer);
-                Console.WriteLine("Na {0} jest:{1}", host, time.Substring(0,length));
+             //   TcpClient client = new TcpClient(host,port);
+             //   NetworkStream network = client.GetStream();
+                Socket soc = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                IPAddress ipAdd = IPAddress.Parse("127.0.0.1");
+                IPEndPoint remoteEP = new IPEndPoint(ipAdd, 2000);
+                soc.Connect(remoteEP);
+                String msg = Console.ReadLine();
+                byte[] byData = Encoding.ASCII.GetBytes(msg);
+                soc.Send(byData);
+                soc.Disconnect(false);
+                soc.Close();
+
+                //   client.Send(buffer);
             } catch
             {
                 Console.WriteLine("Wyjątek!");
