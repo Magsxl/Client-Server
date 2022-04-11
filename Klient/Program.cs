@@ -17,18 +17,20 @@ namespace Klient
 
             try
             {
-             //   TcpClient client = new TcpClient(host,port);
-             //   NetworkStream network = client.GetStream();
-                Socket soc = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                IPAddress ipAdd = IPAddress.Parse("127.0.0.1");
-                IPEndPoint remoteEP = new IPEndPoint(ipAdd, 2000);
-                soc.Connect(remoteEP);
-                String msg = Console.ReadLine();
-                byte[] byData = Encoding.ASCII.GetBytes(msg);
-                soc.Send(byData);
-                soc.Disconnect(false);
-                soc.Close();
-
+                //   TcpClient client = new TcpClient(host,port);
+                //   NetworkStream network = client.GetStream();
+                while (true)
+                {
+                    Socket soc = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                    IPAddress ipAdd = IPAddress.Parse("127.0.0.1");
+                    IPEndPoint remoteEP = new IPEndPoint(ipAdd, 2000);
+                    soc.Connect(remoteEP);
+                    String msg = Console.ReadLine();
+                    byte[] byData = Encoding.ASCII.GetBytes(msg);
+                    soc.Send(byData);
+                    soc.Disconnect(false);
+                    soc.Close();
+                }
                 //   client.Send(buffer);
             } catch
             {
