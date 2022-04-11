@@ -8,7 +8,7 @@ import java.util.Date;
 
 class threads extends Thread {
     BufferedReader streamIn;
-    PrintStream streamOut;
+    PrintWriter streamOut;
     String echo;
     Socket socket;
 
@@ -19,10 +19,12 @@ class threads extends Thread {
     public void run() {
         try {
             streamIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            streamOut = new PrintStream(socket.getOutputStream());
+            streamOut = new PrintWriter(socket.getOutputStream(),true);
             while ((echo = streamIn.readLine()) != null) {
-                System.out.println(echo);
-                streamOut.println(new Date());
+                Date date = new Date();
+                System.out.println("Otrzymana wiadomość: " + echo);
+                System.out.println("Data otrzymania wiadomości: " + date);
+                streamOut.println(echo);
             }
         } catch (Exception e) {
             e.printStackTrace();

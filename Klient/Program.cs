@@ -7,7 +7,6 @@ namespace Klient
 {
     class klient
     {
-       // public static string answer = null;
         public static void Main(string[] args)
         {        
             try
@@ -23,26 +22,18 @@ namespace Klient
                     soc.Connect(remoteEP);
                     int byteCount = soc.Send(byData); 
                     Console.WriteLine("Sent {0} bytes", byteCount);
-                    /*
-                    answer = null;
-                    while (true)
-                    {
-                        byteCount = soc.Receive(data);
-                        answer += Encoding.ASCII.GetString(data, 0, byteCount);
-                        if (answer.IndexOf("<EOF>") > -1)
-                        {
-                            break;
-                        }
-                    }
-                    Console.WriteLine(answer); */
+                    soc.Shutdown(SocketShutdown.Send);
                     int bytesRec = soc.Receive(data);
-                    Console.WriteLine(Encoding.ASCII.GetString(data, 0, bytesRec));
-                    soc.Disconnect(false);
-                    soc.Close();
+                    if (bytesRec > 0)
+                    {
+                        Console.WriteLine(Encoding.ASCII.GetString(data, 0, bytesRec));
+                    }
+                    soc.Shutdown(SocketShutdown.Receive);
+                    soc.Close();                 
                 }
-            } catch
+            } catch (Exception ex)
             {
-                Console.WriteLine("Wyjątek!");
+                Console.WriteLine("Wyjątek!: " + ex);
             }
         }
     }
