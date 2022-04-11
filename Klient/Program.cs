@@ -26,6 +26,14 @@ namespace Klient
                     byte[] byData = Encoding.ASCII.GetBytes(msg);
                     soc.Send(byData);
                     
+                    byte[] buffer = new byte[1024];
+                    int iRx = soc.Receive(buffer);
+                    char[] chars = new char[iRx];
+
+                    Decoder d = Encoding.UTF8.GetDecoder();
+                    int charLen = d.GetChars(buffer, 0, iRx, chars, 0);
+                    String recv = new String(chars);
+
                     soc.Disconnect(false);
                     soc.Close();
 
